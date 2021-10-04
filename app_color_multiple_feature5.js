@@ -41,8 +41,8 @@ var InitDemo = function() {
 	var vertCount = 5;
 	var n = 0;
 
+	//Number of bacteria that starts
 	var numBacteria = Math.round(Math.random() * 10);
-	console.log(numBacteria);
 
 	//The random angle that the bacteria starts at
 	var angleStart = new Array(numBacteria);
@@ -130,6 +130,7 @@ var InitDemo = function() {
 		n = circleVertices.length / vertCount;
 	}
 
+	//Changes angle and color of certain bacteria
 	function generateBacteria(numBacteria) {
 		for (i = 0; i <= numBacteria; i++) {
 			//The random angle that the bacteria starts at
