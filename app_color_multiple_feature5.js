@@ -213,4 +213,31 @@ var InitDemo = function() {
 		requestAnimationFrame(tick);
 	};
 	tick();
+	
+	var read = function(){
+			canvas.addEventListener('click', (e) => {
+			const rect = canvas.getBoundingClientRect();
+			// Detect if mouse is clicked in canvas
+			mouseX = e.clientX - rect.left;
+			mouseY = e.clientY - rect.top;
+			
+			
+			
+			var pixelX= mouseX * gl.canvas.width / gl.canvas.clientWidth;
+			
+			var pixelY = gl.canvas.height - mouseY * gl.canvas.height / gl.canvas.clientHeight - 1;
+			
+			var data = new Uint8Array(4);
+			
+			gl.readPixels(pixelX,pixelY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,data);
+			
+			
+			
+			
+			const id = data[0] + (data[1] << 8) + (data[2] << 16) + (data[3] << 24);
+			console.log(data);
+			
+		});
+	}
+	read();
 };
