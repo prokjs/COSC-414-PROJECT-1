@@ -48,7 +48,8 @@ var InitDemo = function() {
 	var angleStart = new Array(numBacteria);
 	//The random color of the bacteria
 	var colorStart = new Array(numBacteria);
-
+	//The stored color inside the data
+	var data;
 	generateBacteria(numBacteria);
 
 	//////////////////////////////////
@@ -227,7 +228,7 @@ var InitDemo = function() {
 			
 			var pixelY = gl.canvas.height - mouseY * gl.canvas.height / gl.canvas.clientHeight - 1;
 			
-			var data = new Uint8Array(4);
+			data = new Uint8Array(4);
 			
 			gl.readPixels(pixelX,pixelY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,data);
 			
@@ -240,4 +241,11 @@ var InitDemo = function() {
 		});
 	}
 	read();
+
+	//Score of the game
+	function score(){
+		totalScore = 0;
+		if()
+
+	}
 };
