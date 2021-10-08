@@ -39,7 +39,8 @@ var InitDemo = function() {
 
 	//Number of bacteria that starts
 	var numBacteria = Math.round(Math.random() * 10);
-
+	//Stores data of colours clicked on
+	var data = new Uint8Array(4);
 	//Initializing previous time
 	var last = new Array(numBacteria);
 	//Size of section (Game over when = 30.0)
@@ -53,6 +54,8 @@ var InitDemo = function() {
 	var currentBacteriaNumber = 0;
 	//Array of delay between bacteria spawn
 	var delayPerBacteria = new Array(numBacteria);
+	
+	
 
 	var currentTime = Date.now();
 	//Time of start of game
@@ -74,7 +77,7 @@ var InitDemo = function() {
 	console.log('this is working');
 
 	var canvas = document.getElementById('game-surface');
-	var gl = canvas.getContext('webgl');
+	var gl = canvas.getContext('webgl', {preserveDrawingBuffer: true} );
 
 	if (!gl){
 		console.log('webgl not supported, falling back on experimental-webgl');
@@ -145,6 +148,7 @@ var InitDemo = function() {
 			circleVertices = circleVertices.concat(circleColor);
 		}
 		n = circleVertices.length / vertCount;
+		
 	}
 
 	//Changes angle and color of certain bacteria
@@ -249,32 +253,50 @@ var InitDemo = function() {
 		requestAnimationFrame(tick);
 	};
 	tick();
-
 	var read = function(){
-		canvas.addEventListener('click', (e) => {
-		const rect = canvas.getBoundingClientRect();
-		// Detect if mouse is clicked in canvas
-		mouseX = e.clientX - rect.left;
-		mouseY = e.clientY - rect.top;
-		
-		
-		
-		var pixelX= mouseX * gl.canvas.width / gl.canvas.clientWidth;
-		
-		var pixelY = gl.canvas.height - mouseY * gl.canvas.height / gl.canvas.clientHeight - 1;
-		
-		data = new Uint8Array(4);
-		
-		gl.readPixels(pixelX,pixelY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,data);
-		
-		
-		
-		
-		const id = data[0] + (data[1] << 8) + (data[2] << 16) + (data[3] << 24);
-		console.log(data);
-		
+			canvas.addEventListener('click', (e) => {
+			const rect = canvas.getBoundingClientRect();
+			// Detect if mouse is clicked in canvas
+			mouseX = e.clientX - rect.left;
+			mouseY = e.clientY - rect.top;
+			
+			
+			
+			var pixelX= mouseX * gl.canvas.width / gl.canvas.clientWidth;
+			
+			var pixelY = gl.canvas.height - mouseY * gl.canvas.height / gl.canvas.clientHeight - 1;
+			
+			
+			
+			gl.readPixels(pixelX,pixelY,1,1,gl.RGBA,gl.UNSIGNED_BYTE,data);
+			
+			
+			
+			
+			const id = data[0] + (data[1] << 8) + (data[2] << 16) + (data[3] << 24);
+			
+			detect();
+			console.log(data[0], data[1], data[2]);
+			
+			
 		});
 	}
+	
+	var detect = function(){
+		
+		for(i = 0; i < data.length; i++){
+			
+			for(j = 0; j < 3; j++){
+				
+					if(data[i] == Math.round(colorStart[i][j] * 255)){
+						console.log(Math.round(colorStart[i][j]*255));
+					}
+			}
+		}
+				
+	}
+	
 	read();
+	
 
 };
