@@ -33,10 +33,18 @@ var InitDemo = function() {
 	//Rate that sectionSize grows at
 	const SECTIONSIZE_PER_SECOND = 1.0;
 
+	
 	var circleVertices = [];
 	var vertCount = 5;
 	var n = 0;
-
+	//Game over = false;
+	var gameState = true;
+	//Counts have many triangles have reached max size.
+	var maxSizeReached = 0;
+	//Score of the game
+	var totalScore = 0;
+	//Timer for the game to count the delays between clicks
+	var scoretimer = Date.now();
 	//Number of bacteria that starts
 	var numBacteria = Math.round(Math.random() * 10);
 	//Stores data of colours clicked on
@@ -202,11 +210,13 @@ var InitDemo = function() {
 
 	//Updates the section size per second of a single bacteria
 	function updateSectionSize(sSize, j) {
-		var now = Date.now();
+		if(gameState = true){
+			var now = Date.now();
 
-		var time = now - last[j];
-		last[j] = now;
-		return (sSize + (SECTIONSIZE_PER_SECOND * time) / 100.0);
+			var time = now - last[j];
+			last[j] = now;
+			return (sSize + (SECTIONSIZE_PER_SECOND * time) / 100.0);
+		}
 	}
 
 	//Check if the delay time has been met so that another bacteria can spawn
@@ -218,11 +228,16 @@ var InitDemo = function() {
 	}
 
 	var tick = function() {
+		score();
+		winCondition();
 		//Update sectionSize of each bacteria (based on maximum number of bacteria allowed to spawn)
 		for (i = 0; i <= currentBacteriaNumber; i++) {
 
 			if (sectionSize[i] < 30.0) {
 				sectionSize[i] = updateSectionSize(sectionSize[i], i);
+			}
+			if (sectionSize[i] >= 30.0){
+				maxSizeReached++;
 			}
 			if (sectionSize[i] >= 31.0) {
 				sectionSize[i] = 0.0;
@@ -297,6 +312,35 @@ var InitDemo = function() {
 	}
 	
 	read();
-	
+	//Click increases score depending on the timing between clicks and the size of the triangle.
+    //placeholder variable: tempClickConfirm, tempTriangleSectionSize
+	//tempClickConfirm: It confirms the user's click, if the click was on a color matching one of the triangle's color, return true.
+	//tempTriangleSectionSize: It holds the value of the size of the triangle the user clicked.
+    function score(){
+		// if the click was done correctly
+		if(tempClickConfirm == true){
+			//100 is the score place holder, 100 - (Time right now - The click before)
+			//The later the click lower the score is.
+			tempScore = 100 - (Date.now() - scoretimer);
+			totalScore += tempScore;
+
+			//The score is higher the smaller the triangle is on click.
+			tempScore = 30 - tempTriangleSectionSize;
+			totalScore += tempScore;
+
+			//Resetting scoretimer and tempClickConfirm for the next click.
+			scoretimer = Date.now();
+			tempClickConfirm = false;
+			//print
+			console.log(totalScore);
+		}
+    }
+
+	function winCondition(){
+		if(maxSizeReached > 1){
+			gameState = false;
+			console.log("Game Over");
+		}
+	}
 
 };
