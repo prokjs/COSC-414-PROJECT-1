@@ -291,7 +291,7 @@ var InitDemo = function() {
 				for(k = 0; k < colorStart[0].length;k++){
 					if((data[i]/255).toFixed(2) == colorStart[j][k]){
 						
-						colorStart.splice(j,1, 'gone');
+						angleStart.splice(j,1, 'gone');
 						return(true);
 					}
 				}
