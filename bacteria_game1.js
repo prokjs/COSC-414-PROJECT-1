@@ -32,7 +32,7 @@ var fragmentShaderText =
 var InitDemo = function() {
 	//Rate that sectionSize grows at
 	const SECTIONSIZE_PER_SECOND = 1.0;
-
+	var circleVertexBufferObject;
 	
 	var circleVertices = [];
 	var vertCount = 5;
@@ -169,6 +169,7 @@ var InitDemo = function() {
 		}
 		n = circleVertices.length / vertCount;
 		
+		
 	}
 
 	//Changes angle and color of certain bacteria
@@ -177,7 +178,7 @@ var InitDemo = function() {
 			//The random angle that the bacteria starts at
 			angleStart[i] = Math.round(Math.random() * 2 * 3.1419592 * 100) / 100;
 			//The random color of the bacteria
-			colorStart[i] = [0.1+Math.random(),0.1+Math.random(),0.1+Math.random()];
+			colorStart[i] = [(0.1+Math.random()).toFixed(2),(0.1+Math.random()).toFixed(2),(0.1+Math.random()).toFixed(2)];
 			//Initializing last recorded time of section size change per bacteria
 			last[i] = 0.0;
 			//Initializing section size of bacteria
@@ -189,7 +190,7 @@ var InitDemo = function() {
 
 	function drawCircles(vertices, length) {
 		//All arrays in JS is Float64 by default
-		var circleVertexBufferObject = gl.createBuffer();
+		circleVertexBufferObject = gl.createBuffer();
 		//Set the active buffer to the triangle buffer
 		gl.bindBuffer(gl.ARRAY_BUFFER, circleVertexBufferObject);
 		//gl expecting Float32 Array not Float64
@@ -282,7 +283,23 @@ var InitDemo = function() {
 		//Repeat animation
 		requestAnimationFrame(tick);
 	};
+	
 	tick();
+	var detect = function(){
+		for(i = 0; i < data.length;i++){
+			for(j = 0; j < colorStart.length; j++){
+				for(k = 0; k < colorStart[0].length;k++){
+					if((data[i]/255).toFixed(2) == colorStart[j][k]){
+						
+						colorStart.splice(j,1, 'gone');
+						return(true);
+					}
+				}
+			}
+		}
+		
+	}
+	
 	var read = function(){
 			canvas.addEventListener('click', (e) => {
 			const rect = canvas.getBoundingClientRect();
@@ -312,19 +329,7 @@ var InitDemo = function() {
 		});
 	}
 	
-	var detect = function(){
-		
-		for(i = 0; i < data.length; i++){
-			
-			for(j = 0; j < 3; j++){
-				
-					if(data[i] == Math.round(colorStart[i][j] * 255)){
-						console.log(Math.round(colorStart[i][j]*255));
-					}
-			}
-		}
-				
-	}
+	
 	
 	read();
 	//Click increases score depending on the timing between clicks and the size of the triangle.
