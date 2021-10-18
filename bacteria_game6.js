@@ -29,7 +29,7 @@ var fragmentShaderText =
 ].join('\n')
 
 
-var InitDemo = function() {
+var InitProject1 = function() {
 	//Rate that sectionSize grows at
 	const SECTIONSIZE_PER_SECOND = 1.0;
 	var circleVertexBufferObject;
