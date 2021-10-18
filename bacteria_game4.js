@@ -366,6 +366,7 @@ var InitDemo = function() {
 		if(maxSizeReached == 2){
 			gameState = false;
 			finalScore = 0;
+			document.getElementById('gameover').innerHTML = "Game Over";
 			console.log("Game Over");
 		}
 	}
