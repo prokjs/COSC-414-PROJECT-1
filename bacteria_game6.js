@@ -261,11 +261,11 @@ var InitDemo = function() {
 				if((data[0]/255).toFixed(2) <= colorStart[j][0] + 0.1 & (data[0]/255).toFixed(2) >= colorStart[j][0] - 0.1
 				& (data[1]/255).toFixed(2) <= colorStart[j][1] + 0.1 & (data[1]/255).toFixed(2) >= colorStart[j][1] - 0.1 
 				& (data[2]/255).toFixed(2) <= colorStart[j][2] + 0.1 & (data[2]/255).toFixed(2) >= colorStart[j][2] - 0.1){
-					
-					isDead[j] = true;
-					sectionSize[j] = 0;
 					tempClickConfirm = true;
 					score();
+					isDead[j] = true;
+					sectionSize[j] = 0;
+					
 					poison = true;
 					poisonSectionSize[j] = 0;
 					poisonAngleStart[j] = angleStart[j];
