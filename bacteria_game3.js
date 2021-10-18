@@ -37,6 +37,7 @@ var InitDemo = function() {
 	var circleVertices = [];
 	var vertCount = 5;
 	var n = 0;
+	var tempTriangleSectionSize = 0;
 	//Game over = false;
 	var gameState = true;
 	//Counts have many triangles have reached max size.
