@@ -65,6 +65,10 @@ var InitDemo = function() {
 	
 	var tempClickConfirm;
 
+	var finalScore = 0;
+
+	var deleteCount = 0;
+
 	var currentTime = Date.now();
 	//Time of start of game
 	var spawnTime = Date.now();
@@ -191,6 +195,7 @@ var InitDemo = function() {
 			rightAngle[i] = angleStart[i];
 			isDead[i] = false;
 			isMaxSize[i] = false;
+
 		}
 	}
 
@@ -249,7 +254,7 @@ var InitDemo = function() {
 	}
 
 	var tick = function() {
-		score();
+		
 		winCondition();
 		//Update sectionSize of each bacteria (based on maximum number of bacteria allowed to spawn)
 		for (i = 0; i <= currentBacteriaNumber; i++) {
@@ -262,6 +267,7 @@ var InitDemo = function() {
 			if (sectionSize[i] >= 31.0) {
 				sectionSize[i] = 0.0;
 			}
+			
 		}
 
 		//Clear canvas to black
@@ -297,6 +303,8 @@ var InitDemo = function() {
 				& (data[1]/255).toFixed(2) <= colorStart[j][1] + 0.1 & (data[1]/255).toFixed(2) >= colorStart[j][1] - 0.1 
 				& (data[2]/255).toFixed(2) <= colorStart[j][2] + 0.1 & (data[2]/255).toFixed(2) >= colorStart[j][2] - 0.1){
 					isDead[j] = true;
+					tempClickConfirm = true;
+					score();
 					sectionSize[j] = 0;
 				}
 			}
@@ -342,26 +350,22 @@ var InitDemo = function() {
     function score(){
 		// if the click was done correctly
 		if(tempClickConfirm == true){
-			//100 is the score place holder, 100 - (Time right now - The click before)
-			//The later the click lower the score is.
-			tempScore = 100 - (Date.now() - scoretimer);
-			totalScore += tempScore;
-
+			
 			//The score is higher the smaller the triangle is on click.
-			tempScore = 30 - tempTriangleSectionSize;
+			tempScore = 30 - sectionSize[j];
 			totalScore += tempScore;
-
 			//Resetting scoretimer and tempClickConfirm for the next click.
-			scoretimer = Date.now();
 			tempClickConfirm = false;
 			//print
-			console.log(totalScore);
+			finalScore = totalScore / numBacteria;
+			document.getElementById('curScore').innerHTML = finalScore.toFixed(2);
 		}
     }
 
 	function winCondition(){
 		if(maxSizeReached == 2){
 			gameState = false;
+			finalScore = 0;
 			console.log("Game Over");
 		}
 	}
