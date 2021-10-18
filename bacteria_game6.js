@@ -72,7 +72,7 @@ var InitProject1 = function() {
 	var tempClickConfirm;
 
 	var poison = false;
-
+	var deadCount = 0;
 	var currentTime = Date.now();
 	//Time of start of game
 	var spawnTime = Date.now();
@@ -411,6 +411,16 @@ var InitProject1 = function() {
 			finalScore = 0;
 			document.getElementById('gameover').innerHTML = "Game Over";
 			console.log("Game Over");
+		}
+		for(x = 0; x < numBacteria; x++){
+			if(isDead[x] == true){
+				deadCount++;
+			}
+		}
+		if (deadCount == numBacteria){
+			document.getElementById('uwin').innerHTML = "You Win!";
+		}else{
+			deadCount = 0;
 		}
 	}
 
