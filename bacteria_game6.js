@@ -407,18 +407,19 @@ var InitProject1 = function() {
 
 	function winCondition(){
 		if(maxSizeReached == 2){
-			//gameState = false;
+			gameState = false;
 			finalScore = 0;
 			document.getElementById('gameover').innerHTML = "Game Over";
 			console.log("Game Over");
 		}
-		for(x = 0; x < numBacteria; x++){
+		for(x = 0; x <= numBacteria; x++){
 			if(isDead[x] == true){
 				deadCount++;
 			}
 		}
-		if (deadCount == numBacteria){
+		if (deadCount == numBacteria+1){
 			document.getElementById('uwin').innerHTML = "You Win!";
+			gameState = false;
 		}else{
 			deadCount = 0;
 		}
